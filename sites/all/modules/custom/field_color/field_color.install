@@ -1,0 +1,17 @@
+<?php
+
+/**
+ * implements hook_field_schema()
+ */
+function field_color_field_schema($field) {
+  $schema = array(
+    "columns" => array(
+      "color" => array(
+        "type" => "text",
+        "size" => "small",
+        "not null" => TRUE
+      ),
+    )
+  );
+  return $schema;
+}

@@ -1,0 +1,98 @@
+<?php
+
+/**
+ * Implements hook_field_info().
+ */
+function field_color_field_info() {
+  return array(
+    'field_color' => array(
+      'label' => t('Color field'),
+      'description' => t('Store Color'),
+      'default_widget' => 'field_color_widget',
+      'default_formatter' => 'field_color_default',
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_widget_info().
+ */
+function field_color_field_widget_info() {
+  return array(
+    'field_color_widget' => array(
+      'label' => t('Field Color'),
+      'field types' => array('field_color'),
+    ),
+  );
+}
+
+
+/**
+ * Implements hook_field_widget_form().
+ */
+function field_color_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+  $value = isset($items[$delta]['color']) ? $items[$delta]['color'] : '';
+  $path = drupal_get_path('module', 'field_color');
+  $element += array(
+    '#delta' => $delta,
+    '#type' => 'container',
+    '#attached' => array(
+      'js' => array($path . '/spectrum.js', $path . '/field-color.js'),
+      'css' => array($path . '/spectrum.css'),
+    ),
+    '#attributes' => array(
+      'class' => array('field-color')
+    )
+  );
+  switch ($instance["widget"]["type"]) {
+
+    case 'field_color_widget':
+      $element['color'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Choose color'),
+        '#attributes' => array(
+          'class' => array('field-color')
+        ),
+        '#size' => 40,
+        '#default_value' => $value
+      );
+      break;
+  }
+  return $element;
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function field_color_field_formatter_info() {
+  return array(
+    'field_color_default' => array(
+      'label' => t('Field Color'),
+      'field types' => array('field_color'),
+    )
+  );
+}
+
+/**
+ * Implements hook_field_is_empty().
+ */
+function field_color_field_is_empty($item, $field) {
+  if ($field['type'] == 'field_color_default') {
+    if (empty($item["color"])) {
+      return TRUE;
+    }
+  }
+  return FALSE;
+}
+
+function field_color_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+  switch ($display['type']) {
+    case 'field_color_default':
+      foreach ($items as $delta => $item) {
+        $element[$delta] = array('#markup' => $item['color']);
+      }
+      break;
+  }
+  return $element;
+}

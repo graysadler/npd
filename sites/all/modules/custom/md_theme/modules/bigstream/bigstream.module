@@ -1,0 +1,262 @@
+<?php
+
+/**
+ * Implements hook_menu().
+ */
+function bigstream_menu() {
+  $items['ajax-project/%'] = array(
+    'page callback' => '_bigstream_ajax_project_pcb',
+    'access arguments' => array('access content'),
+    'page arguments' => array(1),
+    'type' => MENU_CALLBACK,
+  );
+  $items['page404'] = array(
+    'page callback' => 'page_blank_pcb',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+function bigstream_theme() {
+  $themes = array();
+  $path = drupal_get_path('module', 'bigstream') . '/templates';
+  $themes['footer'] = array(
+    'path' => $path,
+    'template' => 'footer',
+    'variable' => array('config' => NULL)
+  );
+  return $themes;
+}
+
+/**
+ * Implements hook_entity_info_alter().
+ */
+function bigstream_entity_info_alter(&$entity_info) {
+  $entity_info['node']['view modes']['project_ajax'] = array(
+    'label' => t('Project Ajax'),
+    'custom settings' => FALSE,
+  );
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function bigstream_block_info() {
+  $blocks['footer'] = array(
+    'info' => t('[MD] BigStream Footer'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['scroll'] = array(
+    'info' => t('[MD] Scroll'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
+  return $blocks;
+}
+
+function bigstream_preprocess_footer(&$vars) {
+  $social = variable_get('icon_footer', '');
+  if($social != ''){
+    $social_array = explode(',', $social);
+    $social_array = array_chunk($social_array, 3);
+    $vars['social'] = $social_array;
+  }
+}
+
+/**
+ * Implements hook_block_configure().
+ * @param string $delta
+ */
+function bigstream_block_configure($delta = '') {
+  $form = array();
+  $media_file = array('fid' => isset($data['bg_image']['fid']) ? intval($data['bg_image']['fid']) : 0);
+  if ($media_file['fid'] && ($media_file = file_load($media_file['fid']))) {
+    $media_file = get_object_vars($media_file);
+  }
+  switch ($delta) {
+    case 'footer':
+      $icon_bundles = icon_bundles();
+      $icons = array();
+      foreach ($icon_bundles as $bundles) {
+        $icons[] = md_icon_bundle_list($bundles);
+      }
+      $markup = '<ul id="sortable">
+                  <li class="icon-sort">
+                    <div class="toolbar">
+                        <a class="delete-icon" href="#">Delete</a>
+                        <a class="clone-icon" href="#">Clone</a>
+                    </div>
+                    <div class="wrap-icon">
+
+                    </div>
+                  </li>
+                </ul>';
+      $form_popup = '<div class="form-popup">
+                        <ul >
+                          <li><div class="choose-icon">Choose Icon<a href="#"><i class=""></i></a></div></li>
+                          <li><label>Enter Links</label><input class="form-text icon-link" type="text" name="link-icon" value="" /></li>
+                        </ul>
+                      </div>';
+      $form['#attached']['library'] = array(
+        array('system', 'ui.sortable'),
+      );
+      $form['#attached']['js'] = array(
+        drupal_get_path('module', 'bigstream') . '/js/bigstream.js'
+      );
+      $form['#attached']['css'] = array(
+        drupal_get_path('module', 'bigstream') . '/css/module-bigstream.css'
+      );
+      $form['footer_settings'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Footer settings'),
+        '#collapsible' => TRUE,
+        '#collapsed' => FALSE,
+      );
+      $form['footer_settings']['text_footer'] = array(
+        '#title' => t('Text Footer'),
+        '#type' => 'textarea',
+        '#default_value' => variable_get('text_footer', ''),
+      );
+      $form['footer_settings']['icon_footer'] = array(
+        '#type' => 'hidden',
+        '#default_value' => variable_get('icon_footer', ''),
+        '#attributes' => array(
+          'class' => array('icon-footer')
+        )
+      );
+      $form['footer_settings']['popup_form'] = array(
+        '#type' => 'markup',
+        '#markup' => $form_popup
+      );
+      $form['footer_settings']['popup_icon'] = array(
+        '#type' => 'markup',
+        '#markup' => '<div class="icon-popup">' . drupal_render($icons) . '</div>',
+      );
+      $form['footer_settings']['markup_icon'] = array(
+        '#type' => 'markup',
+        '#markup' => '<div class="list-icon">' . $markup . '</div>',
+      );
+
+      break;
+  }
+  return $form;
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function bigstream_form_alter(&$form, &$form_state, $form_id) {
+  if (isset($form['delta']['#value'])) {
+    switch ($form['delta']['#value']) {
+      case 'md_service_alt-block':
+        $form['settings']['service_alt_img'] = array(
+          '#type' => 'media',
+          '#title' => t("Choose Images Center views"),
+          '#default_value' => _bigstream_return_media_file('service_alt_img'),
+          '#weight' => -14,
+          '#input' => TRUE,
+          '#extended' => TRUE
+        );
+        break;
+      case 'about_us':
+        $form['settings']['about_us_img'] = array(
+          '#type' => 'media',
+          '#title' => t("Choose Image Bottom"),
+          '#default_value' => _bigstream_return_media_file('about_us_img'),
+          '#weight' => -14,
+          '#input' => TRUE,
+          '#extended' => TRUE
+        );
+    }
+    $form['#submit'][] = 'bigstream_form_submit';
+  }
+}
+
+function bigstream_form_submit($form, &$form_state) {
+  if (isset($form_state['values']['service_alt_img']['fid'])) {
+    variable_set('service_alt_img', $form_state['values']['service_alt_img']['fid']);
+  }
+
+  if (isset($form_state['values']['about_us_img']['fid'])) {
+    variable_set('about_us_img', $form_state['values']['about_us_img']['fid']);
+  }
+}
+/**
+ * Implements hook_block_save().
+ */
+function bigstream_block_save($delta = '', $edit = array()) {
+  switch ($delta) {
+    case 'footer':
+      variable_set('icon_footer', $edit['icon_footer']);
+      variable_set('text_footer', check_markup($edit['text_footer'], 'full_html'));
+      break;
+    case 'service_alt_img':
+      variable_set('service_alt_img', $edit['service_alt_img']);
+      break;
+  }
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function bigstream_block_view($delta = '') {
+  switch ($delta) {
+    case 'footer':
+      $block['content'] = theme('footer', array('config' => NULL));
+      break;
+
+    case 'scroll':
+      $markup = '<div class="bot-menu local-scroll">
+                <!-- See Map -->
+                <a href="#" class="bot-menu-item animate-init" data-anim-type="fade-in-right" data-anim-delay="0" id="see-map">
+                    <span class="bot-menu-icon">
+                        <i class="fa fa-map-marker"></i>
+                    </span>'
+                   .t('See Map').
+                '</a>
+                <!-- End See Map -->
+                <!-- Scroll Up -->
+                <a href="#home" class="bot-menu-item animate-init" data-anim-type="fade-in-left" data-anim-delay="0">
+                    <span class="bot-menu-icon">
+                        <i class="fa fa-arrow-circle-o-up"></i>
+                    </span>'
+                    .t('Scroll Up').
+                '</a>
+                <!-- End Scroll Up -->
+            </div>';
+        $block['content'] = array(
+          '#markup' => $markup
+        );
+      break;
+  }
+  return $block;
+}
+
+
+/**
+ * Implements hook_menu_alter().
+ */
+function bigstream_menu_alter(&$items) {
+  $items['node']['title'] = t('');
+  $items['node']['page callback'] = 'page_blank_pcb';
+}
+
+function page_blank_pcb() {
+  return '';
+}
+
+
+function _bigstream_ajax_project_pcb($nid) {
+  $node = node_load($nid);
+  $content = node_view($node, 'project_ajax');
+  return print drupal_render($content);
+}
+
+function _bigstream_return_media_file ($name) {
+  $media_file = array('fid' => variable_get($name, 0));
+  if ($media_file['fid'] && ($media_file = file_load($media_file['fid']))) {
+    $media_file = get_object_vars($media_file);
+  }
+  return $media_file;
+}

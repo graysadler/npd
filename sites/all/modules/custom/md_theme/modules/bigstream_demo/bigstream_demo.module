@@ -1,0 +1,171 @@
+<?php
+/**
+ * Implements hook_page_alter().
+ */
+function bigstream_demo_page_alter(&$page) {
+  switch (arg(0)) {
+    case 'index-5':
+      drupal_add_css(drupal_get_path('theme', 'md_bigstream') . '/css/front/colors/red-extra.css', array('weight' => 100));
+      break;
+    case 'index-12':
+    case 'index-15':
+    case 'index-18':
+      drupal_add_css(drupal_get_path('theme', 'md_bigstream') . '/css/front/colors/blue-extra.css', array('weight' => 100));
+      break;
+    case 'index-6':
+      drupal_add_css(drupal_get_path('theme', 'md_bigstream') . '/css/front/colors/brown.css', array('weight' => 100));
+      break;
+    case 'index-8':
+      drupal_add_css(drupal_get_path('theme', 'md_bigstream') . '/css/front/colors/brown-extra.css', array('weight' => 100));
+      break;
+    case 'index-19':
+    case 'index-21':
+    case 'index-22':
+      drupal_add_css(drupal_get_path('theme', 'md_bigstream') . '/css/front/colors/cyan.css' , array('weight' => 100));
+      break;
+    case 'index-4':
+      drupal_add_css(drupal_get_path('theme', 'md_bigstream') . '/css/front/colors/orange.css', array('weight' => 100));
+      break;
+    case 'index-7':
+    case 'index-10':
+      drupal_add_css(drupal_get_path('theme', 'md_bigstream') . '/css/front/colors/green.css', array('weight' => 100));
+      break;
+    case 'index-11':
+      drupal_add_css(drupal_get_path('theme', 'md_bigstream') . '/css/front/colors/pink.css', array('weight' => 100));
+      break;
+
+    case 'index-9':
+      drupal_add_css(drupal_get_path('theme', 'md_bigstream') . '/css/front/colors/azure.css', array('weight' => 100));
+      break;
+    case 'index-2':
+    case 'index-16':
+      drupal_add_css(drupal_get_path('theme', 'md_bigstream') . '/css/front/colors/yellow.css', array('weight' => 100));
+      break;
+  }
+}
+
+
+/**
+ * Implement hook_preprocess_page().
+ */
+function bigstream_demo_process_page(&$vars) {
+  switch (arg(0)) {
+    case 'index-1':
+    case 'index-3':
+    case 'index-8':
+    case 'index-10':
+    case 'index-12':
+    case 'index-14':
+    case 'index-15':
+    case 'index-21':
+    case 'index-20':
+    case 'index-24':
+      $vars['skin_menu'] = '';
+      $vars['position'] = 'menu-vertical-left';
+      $vars['stick_fixed'] = 'js-stick';
+      $vars['menu_wrapper'] = '';
+      $vars['menu_type'] = 'vertical';
+      break;
+    case 'index-4':
+    case 'index-5':
+    case 'index-6':
+    case 'index-7':
+    case 'index-16':
+      $vars['skin_menu'] = 'bg-dark';
+      $vars['position'] = 'menu-vertical-left';
+      $vars['stick_fixed'] = 'js-stick';
+      $vars['menu_wrapper'] = 'full-wrapper';
+      $vars['menu_type'] = 'horizontal';
+      break;
+    case 'index-2':
+    case 'index-9':
+    case 'index-11':
+    case 'index-13':
+    case 'index-19':
+    case 'index-18':
+    case 'index-22':
+    case 'index-23':
+      $vars['skin_menu'] = 'bg-dark';
+      $vars['position'] = 'menu-vertical-left';
+      $vars['stick_fixed'] = 'stick-fixed';
+      $vars['menu_wrapper'] = 'container';
+      $vars['menu_type'] = 'horizontal';
+      break;
+  }
+}
+
+function bigstream_demo_preprocess_block(&$vars) {
+  $bid = $vars['block']->bid;
+  switch (arg(0)) {
+    case 'index-1':
+      switch ($bid) {
+        case 'block-1':
+          $vars['elements']['#block']->data = 'a:14:{s:9:"sub_title";s:47:"We’re branding & digital studio from New York";s:9:"custom_id";s:5:"about";s:12:"custom_class";s:20:"page-section bg-dark";s:13:"block_section";s:1:"1";s:11:"bg_parallax";i:0;s:8:"bg_color";s:15:"rgb(34, 34, 34)";s:10:"full_width";i:0;s:12:"enable_video";i:0;s:8:"video_id";s:0:"";s:12:"show_control";i:0;s:9:"auto_play";i:0;s:4:"mute";i:1;s:9:"animation";i:0;s:15:"animation_value";s:1:"0";}';
+          break;
+        case 'block-7' :
+          $vars['elements']['#block']->data = 'a:13:{s:12:"custom_class";s:7:"bg-dark";s:13:"block_section";s:1:"1";s:11:"bg_parallax";i:0;s:8:"bg_image";a:4:{s:3:"fid";s:1:"7";s:13:"attach_button";s:6:"Attach";s:6:"upload";s:0:"";s:13:"remove_button";s:6:"Remove";}s:10:"bg_overlay";s:21:"rgba(17, 17, 17, 0.7)";s:10:"full_width";i:0;s:12:"enable_video";i:0;s:8:"video_id";s:0:"";s:12:"show_control";i:0;s:9:"auto_play";i:0;s:4:"mute";i:1;s:9:"animation";i:0;s:15:"animation_value";s:1:"0";}';
+          break;
+        case 'views-md_service_list-block':
+          $vars['elements']['#block']->subject = t('Services');
+          $vars['elements']['#block']->data = 'a:6:{s:9:"sub_title";s:37:"We provide the best digital solutions";s:12:"custom_class";s:20:"page-section bg-dark";s:13:"block_section";s:1:"1";s:11:"bg_parallax";i:0;s:8:"bg_image";a:4:{s:3:"fid";s:1:"8";s:13:"attach_button";s:6:"Attach";s:6:"upload";s:0:"";s:13:"remove_button";s:6:"Remove";}s:10:"bg_overlay";s:21:"rgba(17, 17, 17, 0.9)";}';
+          break;
+        case 'views-md_team-block':
+          $vars['elements']['#block']->data = 'a:6:{s:9:"sub_title";s:44:"We’re the best professionals in this field";s:9:"custom_id";s:4:"team";s:12:"custom_class";s:20:"page-section bg-dark";s:13:"block_section";s:1:"1";s:11:"bg_parallax";i:0;s:8:"bg_color";s:15:"rgb(37, 37, 37)";}';
+          break;
+        case 'views-md_portfolio-ajax' :
+          $vars['elements']['#block']->data = 'a:5:{s:9:"sub_title";s:43:"An eye for detail makes our works excellent";s:9:"custom_id";s:9:"portfolio";s:12:"custom_class";s:45:"page-section md-portfolio bg-dark hide-filter";s:13:"block_section";s:1:"1";s:11:"bg_parallax";i:0;}';
+          break;
+        case 'views-md_testimonial-block':
+          $vars['elements']['#block']->data = 'a:4:{s:12:"custom_class";s:29:"small-section bg-dark-lighter";s:13:"block_section";s:1:"2";s:11:"bg_parallax";i:0;s:8:"bg_color";s:15:"rgb(37, 37, 37)";}';
+          break;
+        case 'views-md_client_logo-block':
+          $vars['elements']['#block']->data = 'a:3:{s:12:"custom_class";s:33:"small-section bg-dark pt-10 pb-10";s:13:"block_section";s:1:"1";s:11:"bg_parallax";i:0;}';
+          break;
+      }
+      break;
+    case 'index-2':
+    case 'index-3':
+    case 'index-4':
+    case 'index-10':
+      switch ($bid) {
+        case 'views-md_team-block':
+          $vars['elements']['#block']->data = 'a:5:{s:9:"sub_title";s:44:"We’re the best professionals in this field";s:9:"custom_id";s:4:"team";s:12:"custom_class";s:12:"page-section";s:13:"block_section";s:1:"1";s:11:"bg_parallax";i:0;}';
+          break;
+        case 'views-md_service_list-block':
+          $vars['elements']['#block']->data = 'a:5:{s:12:"custom_class";s:30:"page-section bg-scroll bg-dark";s:13:"block_section";s:1:"1";s:11:"bg_parallax";i:0;s:8:"bg_image";a:4:{s:3:"fid";s:2:"12";s:13:"attach_button";s:6:"Attach";s:6:"upload";s:0:"";s:13:"remove_button";s:6:"Remove";}s:10:"bg_overlay";s:21:"rgba(34, 34, 34, 0.5)";}';
+          break;
+        case 'views-md_testimonial-block':
+          $vars['elements']['#block']->data = 'a:3:{s:12:"custom_class";s:13:"small-section";s:13:"block_section";s:1:"2";s:11:"bg_parallax";i:0;}';
+          break;
+        case 'views-md_client_logo-block':
+          $vars['elements']['#block']->data = 'a:3:{s:12:"custom_class";s:25:"small-section pt-10 pb-10";s:13:"block_section";s:1:"1";s:11:"bg_parallax";i:0;}';
+          break;
+        case 'views-md_service_alt-block':
+          $vars['elements']['#block']->data = 'a:6:{s:9:"sub_title";s:51:"We provide a complete list of best digital services";s:12:"custom_class";s:12:"page-section";s:13:"block_section";s:1:"1";s:11:"bg_parallax";i:0;s:8:"bg_image";a:4:{s:3:"fid";s:2:"77";s:13:"attach_button";s:6:"Attach";s:6:"upload";s:0:"";s:13:"remove_button";s:6:"Remove";}s:10:"bg_overlay";s:25:"rgba(252, 252, 252, 0.97)";}';
+          break;
+        case 'block-2':
+          $vars['elements']['#block']->data = 'a:12:{s:12:"custom_class";s:21:"small-section bg-dark";s:13:"block_section";s:1:"1";s:11:"bg_parallax";i:1;s:8:"bg_color";s:15:"rgb(34, 34, 34)";s:10:"full_width";i:0;s:12:"enable_video";i:0;s:8:"video_id";s:0:"";s:12:"show_control";i:0;s:9:"auto_play";i:0;s:4:"mute";i:1;s:9:"animation";i:0;s:15:"animation_value";s:1:"0";}';
+          break;
+        case '170':
+          $vars['elements']['#block']->data = 'a:6:{s:9:"custom_id";s:7:"contact";s:12:"custom_class";s:30:"page-section bg-scroll bg-dark";s:13:"block_section";s:1:"1";s:11:"bg_parallax";i:1;s:8:"bg_image";a:4:{s:3:"fid";s:2:"55";s:13:"attach_button";s:6:"Attach";s:6:"upload";s:0:"";s:13:"remove_button";s:6:"Remove";}s:10:"bg_overlay";s:21:"rgba(17, 17, 17, 0.9)";}';
+          break;
+      }
+      break;
+    case 'index-9':
+      switch ($bid) {
+        case 'views-md_portfolio-picture':
+          $vars['elements']['#block']->subject = t('');
+          $vars['elements']['#block']->data = 'a:5:{s:9:"sub_title";s:43:"An eye for detail makes our works excellent";s:9:"custom_id";s:9:"portfolio";s:12:"custom_class";s:43:"page-section md-portfolio  hide-filter pt-0";s:13:"block_section";s:1:"1";s:11:"bg_parallax";i:0;}';
+          break;
+        case 'block-2':
+          $vars['elements']['#block']->data = 'a:13:{s:12:"custom_class";s:13:"small-section";s:13:"block_section";s:1:"1";s:11:"bg_parallax";i:1;s:8:"bg_image";a:4:{s:3:"fid";s:2:"78";s:13:"attach_button";s:6:"Attach";s:6:"upload";s:0:"";s:13:"remove_button";s:6:"Remove";}s:10:"bg_overlay";s:17:"rgb(67, 165, 222)";s:10:"full_width";i:0;s:12:"enable_video";i:0;s:8:"video_id";s:0:"";s:12:"show_control";i:0;s:9:"auto_play";i:0;s:4:"mute";i:1;s:9:"animation";i:0;s:15:"animation_value";s:1:"0";}';
+          break;
+        case 'block-1':
+          $vars['elements']['#block']->data = 'a:14:{s:9:"sub_title";s:47:"We’re branding & digital studio from New York";s:9:"custom_id";s:5:"about";s:12:"custom_class";s:12:"page-section";s:13:"block_section";s:1:"1";s:11:"bg_parallax";i:0;s:8:"bg_color";s:18:"rgb(255, 255, 255)";s:10:"full_width";i:0;s:12:"enable_video";i:0;s:8:"video_id";s:0:"";s:12:"show_control";i:0;s:9:"auto_play";i:0;s:4:"mute";i:1;s:9:"animation";i:0;s:15:"animation_value";s:1:"0";}';
+          break;
+        case '170':
+          $vars['elements']['#block']->data = 'a:6:{s:9:"custom_id";s:7:"contact";s:12:"custom_class";s:30:"page-section bg-scroll bg-dark";s:13:"block_section";s:1:"1";s:11:"bg_parallax";i:1;s:8:"bg_image";a:4:{s:3:"fid";s:2:"79";s:13:"attach_button";s:6:"Attach";s:6:"upload";s:0:"";s:13:"remove_button";s:6:"Remove";}s:10:"bg_overlay";s:21:"rgba(17, 17, 17, 0.7)";}';
+          break;
+      }
+  }
+}

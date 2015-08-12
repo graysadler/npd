@@ -1,0 +1,10 @@
+name = MD Bigstream
+description = Select this profile to install demo profile for MD Bigstream theme.
+core = 7.x
+exclusive = 1
+dependencies[] = node
+dependencies[] = contact
+files[] = mdbigstream.profile
+
+version = "7.32"
+project = "drupal"

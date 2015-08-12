@@ -1,0 +1,43 @@
+name = MD BigStream Theme
+description = BigStream OnePage theme
+core = 7.x
+engine = phptemplate
+
+settings[toggle_logo] = 1
+settings[toggle_name] = 0
+settings[toggle_slogan] = 0
+settings[toggle_node_user_picture] = 1
+settings[toggle_comment_user_picture] = 1
+settings[toggle_comment_user_verification] = 1
+settings[toggle_favicon] = 1
+settings[toggle_main_menu] = 1
+settings[toggle_secondary_menu] = 1
+settings[default_logo] = 1
+settings[default_favicon] = 1
+settings[toggle_fvicon] = 1
+settings[css3_textarea] = 0
+settings[webclip_precomp] = 1
+settings[googlewebfonts] = http://fonts.googleapis.com/css?family=Playfair+Display:400,700,900,400italic,700italic,900italic|Montserrat:400,700|Quattrocento+Sans:400,400italic,700,700italic
+settings[typo_heading_style_enable] = 0
+
+settings[copyright] = © 2014 Ambrosia Restaurant
+
+; Important Drupal regions
+
+regions[page_top] = Page top
+regions[highlighted] = Page Highlighted
+
+regions[header] = Header
+regions[bradding] = Brading
+regions[content] = Content
+regions[sidebar] = Sidebar
+regions[bottom] = Bottom
+regions[contact] = Contact
+regions[footer] = Footer
+
+regions[page_bottom] = Page bottom
+
+project status url = http://updates.megadrupal.com/release-history
+version = "7.x-1.0"
+core = "7.x"
+project = "md_bigstream"
