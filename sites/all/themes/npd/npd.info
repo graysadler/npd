@@ -1,0 +1,4 @@
+name = Next Phase Designs
+description = This is a sub-theme of theme md_bigstream
+core = 7.x
+base theme = md_bigstream
