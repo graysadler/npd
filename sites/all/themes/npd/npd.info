@@ -2,3 +2,5 @@ name = Next Phase Designs
 description = This is a sub-theme of theme md_bigstream
 core = 7.x
 base theme = md_bigstream
+
+settings[googlewebfonts] = http://fonts.googleapis.com/css?family=Playfair+Display:400,700,900,400italic,700italic,900italic|Montserrat:400,700|Quattrocento+Sans:400,400italic,700,700italic
